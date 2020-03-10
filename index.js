@@ -4,6 +4,9 @@ const setupOrderModel = require('./model/order')
 const setupDriverModel = require('./model/driver')
 const setupAddressModel = require('./model/address')
 const setupClient = require('./lib/client')
+const setupAddress = require('./lib/address')
+const setupDriver = require('./lib/driver')
+const setupOrder = require('./lib/order')
 
 module.exports = async function (config) {
   const sequelize = setupDatabase(config)
@@ -32,9 +35,10 @@ module.exports = async function (config) {
   }
 
   const Client = setupClient(ClientModel) 
-  const Order = {}
-  const Driver = {}
-  const Address = {}
+  const Order = setupOrder(OrderModel)
+  const Driver = setupDriver(DriverModel)
+  const Address = setupAddress(AddressModel)
+
 
   return {
     Client,
