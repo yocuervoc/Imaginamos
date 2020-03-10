@@ -1,0 +1,23 @@
+{
+  "name": "imaginamos",
+  "version": "1.0.0",
+  "description": "prueba tecnica Imaginamos",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/yocuervoc/Imaginamos.git"
+  },
+  "author": "Yonatan Cuervo",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/yocuervoc/Imaginamos/issues"
+  },
+  "homepage": "https://github.com/yocuervoc/Imaginamos#readme",
+  "dependencies": {
+    "mysql2": "^2.1.0",
+    "sequelize": "^5.21.5"
+  }
+}
