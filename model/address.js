@@ -5,8 +5,9 @@ module.exports = function setupAddressModel(config){
     const sequelize = setupDataBase(config)
 
     return sequelize.define('address',{
-        uuid:{
-            type: Sequelize.STRING,
+        id:{
+            type: Sequelize.INTEGER,
+            autoIncrement: true,
             primaryKey: true,
             allowNull: false
         },

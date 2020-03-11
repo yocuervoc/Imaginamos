@@ -6,8 +6,9 @@ module.exports = function setupClientModel(config){
 
 
     return sequelize.define('client',{
-        uuid: {
-            type: Sequelize.STRING,
+        id:{
+            type: Sequelize.INTEGER,
+            autoIncrement: true,
             primaryKey: true,
             allowNull: false
         },
@@ -15,8 +16,13 @@ module.exports = function setupClientModel(config){
             type: Sequelize.STRING,
             allowNull: false
         },
-        emial: {
+        lastName: {
             type: Sequelize.STRING,
+            allowNull: false
+        },
+        email: {
+            type: Sequelize.STRING,
+            unique: true,
             allowNull: false
         },
         phone: {

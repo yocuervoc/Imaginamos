@@ -5,8 +5,9 @@ module.exports = function setupOrderModel(config){
     const sequelize = setupDataBase(config)
 
     return sequelize.define('order',{
-        uuid:{
-            type: Sequelize.STRING,
+        id:{
+            type: Sequelize.INTEGER,
+            autoIncrement: true,
             primaryKey: true,
             allowNull: false
         },

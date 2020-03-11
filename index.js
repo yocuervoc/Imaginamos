@@ -20,7 +20,6 @@ module.exports = async function (config) {
 
   ClientModel.hasMany(AddressModel)
   AddressModel.belongsTo(ClientModel)
-
   DriverModel.hasMany(OrderModel)
   OrderModel.belongsTo(DriverModel)
 
@@ -31,11 +30,11 @@ module.exports = async function (config) {
   await sequelize.authenticate()
 
   if (config.setup) {
-    await sequelize.sync({ force: true })
+    await sequelize.sync({ force: false })
   }
 
   const Client = setupClient(ClientModel) 
-  const Order = setupOrder(OrderModel)
+  const Order = setupOrder(OrderModel,DriverModel, config)
   const Driver = setupDriver(DriverModel)
   const Address = setupAddress(AddressModel)
 

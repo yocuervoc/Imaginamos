@@ -14,7 +14,7 @@ async function run (){
     const {Address} = await db(config).catch(handleFatalError)
     const {Driver} = await db(config).catch(handleFatalError)
     const {Order} = await db(config).catch(handleFatalError)
-
+/*
     let cliente1= {
         uuid: "300",
         name: "jorge",
@@ -57,8 +57,8 @@ async function run (){
     console.log(await Driver.getAlldrivers())
 
     let orden = await Order.createOrder(order1).catch(handleFatalError)
-
-    
+*/
+    console.log(await Order.getOrders(2,"2020-01-01"))
 }
 
 function handleFatalError (err) {

@@ -1,0 +1,74 @@
+const express = require('express')
+const asyncify = require('express-asyncify')
+const db = require('./')
+
+const config = require('./config')
+const api = asyncify(express.Router())
+
+let service, Client, Order, Address, Driver
+
+api.use(express.json())
+api.use(express.urlencoded({ extended: false }))
+
+
+
+api.use('*', async (req, res, next) => {
+    console.log("si configura")
+    if (!service) {
+        try {
+            service = await db(config.db)
+            res.json({
+                success: true
+            })
+        } catch (e) {
+            return next(e)
+        }
+        Client = service.Client
+        Order = service.Order
+        Address = service.Address
+        Driver = service.Driver
+    }
+    next()
+})
+
+api.get('/clients', async (req, res, next)=>{
+    let clientes = []
+    try{
+        clientes = await Client.findAllClients()
+    }catch(e){
+        return next(e)
+    }
+    res.send({clientes})
+})
+
+api.get('/drivers', async (req, res, next) =>{
+    let drivers = []
+    try {
+        drivers = await Driver.getAllDrivers()
+    } catch (error) {
+        return next(error)
+    }
+    res.send(drivers)
+})
+
+api.get('/orders', (req, res) =>{
+    let orders = []
+    try {
+        orders = await Order.get
+    } catch (error) {
+           
+    }
+})
+
+api.get('/order/:id', (req, res) =>{
+
+})
+
+api.get('/addres/:id', (req, res) =>{
+
+})
+
+
+
+
+module.exports = api
