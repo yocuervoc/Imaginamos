@@ -51,18 +51,27 @@ api.get('/drivers', async (req, res, next) =>{
     res.send(drivers)
 })
 
-api.get('/orders', (req, res) =>{
+api.get('/orders/:id/:date', async (req, res, next) =>{
+    const { id, date } = req.params
     let orders = []
     try {
-        orders = await Order.get
+        orders = await Order.getOrders(id, date)
     } catch (error) {
-           
+        return next(error)
+    }
+    res.send(orders)
+})
+
+api.post('/createOrder',  async (req, res, next) => {
+    try{
+    let answer = await Order.createOrder(req.body)
+    res.send({ success: true })
+    }
+    catch(error) {
+        return next(error)
     }
 })
 
-api.get('/order/:id', (req, res) =>{
-
-})
 
 api.get('/addres/:id', (req, res) =>{
 

@@ -37,13 +37,7 @@ async function run (){
         email: "jaime@gmail.com"
     }
 
-    let order1 = {
-        uuid: "primera",
-        date: '2020-01-01',
-        clientUuid: "300",
-        driverUuid: "700",
-        addressUuid: "1"
-    }
+    
     let user2 = await Client.createClient(cliente1).catch(handleFatalError)
     console.log(user2)
 
@@ -55,10 +49,24 @@ async function run (){
     driver = await Driver.createDriver(driver2).catch(handleFatalError)
 
     console.log(await Driver.getAlldrivers())
-
+    let order1 = {
+        uuid: "primera",
+        date: '2020-01-01',
+        clientUuid: "300",
+        driverUuid: "700",
+        addressUuid: "1"
+    }
     let orden = await Order.createOrder(order1).catch(handleFatalError)
 */
-    console.log(await Order.getOrders(2,"2020-01-01"))
+    //console.log(await Order.getOrders(2,"2020-01-01"))
+
+    let order1 = {
+        date: '2020-01-01',
+        clientid: 2,
+        driverid: 2,
+        addressid: 1
+    }
+    let orden = await Order.createOrder(order1).catch(handleFatalError)
 }
 
 function handleFatalError (err) {
