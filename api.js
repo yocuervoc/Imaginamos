@@ -59,6 +59,16 @@ api.get('/drivers', async (req, res, next) =>{
     res.send(drivers)
 })
 
+api.post('/drivers', async (req, res, next) =>{
+    try{
+        let answer = await Driver.createDriver(req.body)
+        res.send({ success: true })
+        }
+        catch(error) {
+            return next(error)
+    }
+})
+
 api.get('/orders/:id/:date', async (req, res, next) =>{
     const { id, date } = req.params
     let orders = []
