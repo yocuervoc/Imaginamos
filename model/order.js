@@ -14,6 +14,14 @@ module.exports = function setupOrderModel(config){
         date:{
             type: Sequelize.DATEONLY,
             allowNull: false
+        },
+        startAt: {
+            type:Sequelize.TIME,
+            allowNull: false
+        },
+        endAt: {
+            type:Sequelize.TIME,
+            allowNull: false
         }
     })
 }
