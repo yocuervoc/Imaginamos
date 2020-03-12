@@ -70,7 +70,15 @@ api.get('/orders/:id/:date', async (req, res, next) =>{
     res.send(orders)
 })
 
-api.post('/createOrder',  async (req, res, next) => {
+api.post('/createOrder', auth(config.auth), async (req, res, next) => {
+    token = req.headers.authorization.split(" ")[1]
+    const client = autenticar.verify(token,config.auth.secret)
+    const idClient = client.id
+    req.body.clientId=idClient
+    console.log(req.body)
+    if(!client || !client.id){        
+        return next(new Error('Usuario no autorizado'))
+    }
     try{
     let answer = await Order.createOrder(req.body)
     res.send({ success: true })
@@ -95,7 +103,7 @@ api.post('/address', auth(config.auth),async (req, res, next) =>{
     token = req.headers.authorization.split(" ")[1]
     const client = autenticar.verify(token,config.auth.secret)
     const idClient = client.id
-    console.log("XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX")
+    
     req.body.clientId=idClient
     console.log(req.body)
     if(!client || !client.id){        

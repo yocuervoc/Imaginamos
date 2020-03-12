@@ -28,6 +28,10 @@ module.exports = function setupClientModel(config){
         phone: {
             type: Sequelize.STRING,
             allowNull: false
+        },
+        password:{
+            type: Sequelize.STRING,
+            allowNull:false
         }
     })
 }
