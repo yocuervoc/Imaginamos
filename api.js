@@ -4,13 +4,12 @@ const db = require('./')
 const config = require('./config')
 const api = asyncify(express.Router())
 const auth = require('express-jwt')
+const autenticar =require('./auth')
 
 let service, Client, Order, Address, Driver
 
 api.use(express.json())
 api.use(express.urlencoded({ extended: false }))
-
-
 
 api.use('*', async (req, res, next) => {
     console.log("si configura")
@@ -32,14 +31,21 @@ api.use('*', async (req, res, next) => {
 })
 
 api.post('/singIn', async (req, res, next)=>{
-    let clientes = []
+    let cliente
+     payload =  
+     {
+        id:"", 
+        email:""
+    }
     try{
-        clientes = await Client.loggeo(req.body)
+        cliente = await Client.loggeo(req.body)
+        payload.id = cliente[0].id
+        payload.email = cliente[0].email
+        res.status(200).send({token: autenticar.sign(payload,config.auth.secret)})
     }catch(e){
         res.status(401).send({message: 'Error, password o email invalidos'})
         return next(e)
     }
-    res.send({clientes})
 })
 
 
@@ -84,16 +90,23 @@ api.post('/singUp',async (req, res, next) =>{
     }
 })
 
-api.post('/address', auth(config.auth),async (req, res) =>{
-    const {client} = req.params
-        if(!client || !client.id ){
-            return next(new Error('Usuario no autorizado'))
-        }
+api.post('/address', auth(config.auth),async (req, res, next) =>{
+    
+    token = req.headers.authorization.split(" ")[1]
+    const client = autenticar.verify(token,config.auth.secret)
+    const idClient = client.id
+    console.log("XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX")
+    req.body.clientId=idClient
+    console.log(req.body)
+    if(!client || !client.id){        
+        return next(new Error('Usuario no autorizado'))
+    }
     try{
         let answer = await Address.createAddress(req.body)
         res.send({ success: true })
     }
     catch(error) {
+        
         return next(error)
     }
 })
