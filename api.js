@@ -1,9 +1,9 @@
 const express = require('express')
 const asyncify = require('express-asyncify')
 const db = require('./')
-
 const config = require('./config')
 const api = asyncify(express.Router())
+const auth = require('express-jwt')
 
 let service, Client, Order, Address, Driver
 
@@ -31,15 +31,17 @@ api.use('*', async (req, res, next) => {
     next()
 })
 
-api.get('/clients', async (req, res, next)=>{
+api.post('/singIn', async (req, res, next)=>{
     let clientes = []
     try{
-        clientes = await Client.findAllClients()
+        clientes = await Client.loggeo(req.body)
     }catch(e){
+        res.status(401).send({message: 'Error, password o email invalidos'})
         return next(e)
     }
     res.send({clientes})
 })
+
 
 api.get('/drivers', async (req, res, next) =>{
     let drivers = []
@@ -71,10 +73,22 @@ api.post('/createOrder',  async (req, res, next) => {
         return next(error)
     }
 })
+api.post('/singUp',async (req, res, next) =>{
+    try{
+        let answer = await Client.createClient(req.body)
+        return res.status(200).send({ message: 'ususario creado exitosamente' })
+    }
+    catch(error) {
+        res.status(500).send({message: 'Error al crear usuario'})
+        return next(error)
+    }
+})
 
-
-api.post('/address', async (req, res) =>{
-    const {address, description} = req.params
+api.post('/address', auth(config.auth),async (req, res) =>{
+    const {client} = req.params
+        if(!client || !client.id ){
+            return next(new Error('Usuario no autorizado'))
+        }
     try{
         let answer = await Address.createAddress(req.body)
         res.send({ success: true })
