@@ -36,7 +36,7 @@ module.exports = async function (config) {
   const Client = setupClient(ClientModel) 
   const Order = setupOrder(OrderModel,DriverModel, config)
   const Driver = setupDriver(DriverModel)
-  const Address = setupAddress(AddressModel)
+  const Address = setupAddress(AddressModel,config)
 
 
   return {

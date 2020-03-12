@@ -69,6 +69,19 @@ api.get('/orders/:id/:date', async (req, res, next) =>{
     }
     res.send(orders)
 })
+api.get('/address', auth(config.auth),async (req, res, next) =>{
+    
+    token = req.headers.authorization.split(" ")[1]
+    const client = autenticar.verify(token,config.auth.secret)
+    const idClient = client.id
+    let adresses = []
+    try {
+        adresses = await Address.findAddresses(idClient)
+    } catch (error) {
+        return next(error)
+    }
+    res.send(adresses)
+})
 
 api.post('/createOrder', auth(config.auth), async (req, res, next) => {
     token = req.headers.authorization.split(" ")[1]
