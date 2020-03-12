@@ -73,11 +73,15 @@ api.post('/createOrder',  async (req, res, next) => {
 })
 
 
-api.get('/addres/:id', (req, res) =>{
-
+api.post('/address', async (req, res) =>{
+    const {address, description} = req.params
+    try{
+        let answer = await Address.createAddress(req.body)
+        res.send({ success: true })
+    }
+    catch(error) {
+        return next(error)
+    }
 })
-
-
-
 
 module.exports = api
