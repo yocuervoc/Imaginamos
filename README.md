@@ -43,7 +43,10 @@ node server
 configuracion y permisos de la base de datos:
 
 database: 'delivery',
+
 username:  'root',
+
 password:  'password',
+
 host:  'localhost',
 
